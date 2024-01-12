@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Gameplay.PLayer;
 using UnityEngine;
 
 public class PlayerAnimatorController : MonoBehaviour
