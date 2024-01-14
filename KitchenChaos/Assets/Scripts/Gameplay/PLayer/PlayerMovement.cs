@@ -1,4 +1,5 @@
 using System;
+using Gameplay.Player;
 using UnityEngine;
 using Zenject;
 
@@ -7,8 +8,6 @@ namespace Gameplay.PLayer
 
     public class PlayerMovement : MonoBehaviour
     {
-
-        private Vector3 _moveDir = Vector3.zero;
 
         private bool _isWalking;
 
@@ -25,35 +24,36 @@ namespace Gameplay.PLayer
         private float _raycastRadius = .6f;
 
         [Inject] private GameInput _gameInput;
+        [Inject] private PlayerInteractions _playerInteractions;
 
         public Action OnStartWalking = delegate { };
         public Action OnStopWalking = delegate { };
 
         public void Update()
         {
-            _moveDir = Vector3.zero;
+            var moveDir = _gameInput.GetVector3InputNormalized();
+            HandleMovement(moveDir);
+        }
 
-            var inputVector = _gameInput.GetVector2InputNormalized();
-
-            _moveDir.x = inputVector.x;
-            _moveDir.z = inputVector.y;
-
-            if (inputVector != Vector2.zero)
+        private void HandleMovement(Vector3 moveDir)
+        {
+            
+            if (moveDir != Vector3.zero)
             {
-                float speedMultiplier = _speedMultiplier * Time.deltaTime;
+                float distanceToMove = _speedMultiplier * Time.deltaTime;
 
-                bool noObstacleInFront = CheckObjectInFront(_moveDir, speedMultiplier);
+                bool freeToMove = NoObjectInFront(moveDir, distanceToMove);
 
-                if (!noObstacleInFront)
+                if (!freeToMove)
                 {
-                    TryFindOtherDirectionsToMove(ref _moveDir, speedMultiplier);
+                    freeToMove = TryFindOtherDirectionsToMove(ref moveDir, distanceToMove);
                 }
 
-                if (noObstacleInFront)
+                if (freeToMove)
                 {
-                    Move(speedMultiplier);
+                    Move(distanceToMove, moveDir);
                 }
-                Rotate();
+                Rotate(moveDir);
             }
             else
             {
@@ -61,30 +61,36 @@ namespace Gameplay.PLayer
             }
         }
 
-        private void TryFindOtherDirectionsToMove(ref Vector3 moveDir, float speedMultiplier)
+        private bool TryFindOtherDirectionsToMove(ref Vector3 moveDir, float speedMultiplier)
         {
-            Vector3 moveDirX = new Vector3(_moveDir.x, 0, 0).normalized;
-            bool noObstacleInFront = CheckObjectInFront(moveDirX, speedMultiplier);
-            if (noObstacleInFront)
+            bool isFreeToMove = false;
+            Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
+            if (NoObjectInFront(moveDirX, speedMultiplier))
             {
                 moveDir = moveDirX;
+                isFreeToMove = true;
+            }
+            else
+            {
+                Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;
+                if (NoObjectInFront(moveDirZ, speedMultiplier))
+                {
+                    moveDir = moveDirZ;
+                    isFreeToMove = true;
+                }
             }
 
-            Vector3 moveDirZ = new Vector3(0, 0, _moveDir.z).normalized;
-            noObstacleInFront = CheckObjectInFront(moveDirZ, speedMultiplier);
-            if (noObstacleInFront)
-            {
-                moveDir = moveDirZ;
-            }
+
+            return isFreeToMove;
         }
 
-        private bool CheckObjectInFront(Vector3 _moveDirX, float speedMultiplier)
+        private bool NoObjectInFront(Vector3 moveDir, float speedMultiplier)
         {
             return !Physics.CapsuleCast(transform.position,
-                transform.position + Vector3.up * _playerHeight, _raycastRadius, _moveDirX, speedMultiplier);
+                transform.position + Vector3.up * _playerHeight, _raycastRadius, moveDir, speedMultiplier);
         }
 
-        private void Move(float speedMultiplier)
+        private void Move(float speedMultiplier, Vector3 moveDir)
         {
             if (!_isWalking)
             {
@@ -92,7 +98,7 @@ namespace Gameplay.PLayer
                 OnStartWalking.Invoke();
             }
 
-            transform.position += _moveDir * speedMultiplier;
+            transform.position += moveDir * speedMultiplier;
         }
 
         private void TryStopMoving()
@@ -104,10 +110,10 @@ namespace Gameplay.PLayer
             }
         }
 
-        private void Rotate()
+        private void Rotate(Vector3 moveDir)
         {
             //Changing blue axis of the object. Because object is rotated in 180 degrees, i use minus moveDir (-moveDir)
-            transform.forward = Vector3.Slerp(transform.forward, -_moveDir, _rotateSpeed * Time.deltaTime);
+            transform.forward = Vector3.Slerp(transform.forward, -moveDir, _rotateSpeed * Time.deltaTime);
         }
     }
 

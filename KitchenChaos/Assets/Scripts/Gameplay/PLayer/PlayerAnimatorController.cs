@@ -1,40 +1,45 @@
 using Gameplay.PLayer;
 using UnityEngine;
 
-public class PlayerAnimatorController : MonoBehaviour
+namespace Gameplay.Player
 {
 
-
-    private PlayerMovement _playerMovement;
-    private Animator _animator;
-
-    private static readonly int IsMoving = Animator.StringToHash("IsWalking");
-
-
-    private void Awake()
+    public class PlayerAnimatorController : MonoBehaviour
     {
-        _playerMovement = GetComponent<PlayerMovement>();
-        _animator = GetComponentInChildren<Animator>();
+
+
+        private PlayerMovement _playerMovement;
+        private Animator _animator;
+
+        private static readonly int IsMoving = Animator.StringToHash("IsWalking");
+
+
+        private void Awake()
+        {
+            _playerMovement = GetComponent<PlayerMovement>();
+            _animator = GetComponentInChildren<Animator>();
         
-        _playerMovement.OnStartWalking += OnStartWalkingHandle;
-        _playerMovement.OnStopWalking += OnStopWalkingHandle;
-    }
+            _playerMovement.OnStartWalking += OnStartWalkingHandle;
+            _playerMovement.OnStopWalking += OnStopWalkingHandle;
+        }
 
-    private void OnDestroy()
-    {
-        _playerMovement.OnStartWalking -= OnStartWalkingHandle;
-        _playerMovement.OnStopWalking -= OnStopWalkingHandle;
-    }
+        private void OnDestroy()
+        {
+            _playerMovement.OnStartWalking -= OnStartWalkingHandle;
+            _playerMovement.OnStopWalking -= OnStopWalkingHandle;
+        }
 
-    private void OnStartWalkingHandle()
-    {
-        _animator.SetBool(IsMoving, true);
-    }
+        private void OnStartWalkingHandle()
+        {
+            _animator.SetBool(IsMoving, true);
+        }
 
-    private void OnStopWalkingHandle()
-    {
-        _animator.SetBool(IsMoving, false);
-    }
+        private void OnStopWalkingHandle()
+        {
+            _animator.SetBool(IsMoving, false);
+        }
 
+
+    }
 
 }
