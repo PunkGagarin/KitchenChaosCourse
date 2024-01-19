@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69cbe54f9ace4965a6776469fce589c3, type: 3}
+  m_Name: SlicedItemRecipes
+  m_EditorClassIdentifier: 
+  _slicedRecipes:
+  - _key: 0
+    _value:
+      <SlicedItemSo>k__BackingField: {fileID: 11400000, guid: 8c5a98b37f35d8046a5212893593d1f0,
+        type: 2}
+      <CuttingCounter>k__BackingField: 3
+  - _key: 2
+    _value:
+      <SlicedItemSo>k__BackingField: {fileID: 11400000, guid: 72e873ef06f2f57459cdfd124246117f,
+        type: 2}
+      <CuttingCounter>k__BackingField: 3
+  - _key: 1
+    _value:
+      <SlicedItemSo>k__BackingField: {fileID: 11400000, guid: 46040958696873b47a2e5a3d1e6656e6,
+        type: 2}
+      <CuttingCounter>k__BackingField: 5

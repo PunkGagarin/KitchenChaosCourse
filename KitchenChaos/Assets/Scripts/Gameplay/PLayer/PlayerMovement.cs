@@ -37,7 +37,6 @@ namespace Gameplay.PLayer
 
         private void HandleMovement(Vector3 moveDir)
         {
-            
             if (moveDir != Vector3.zero)
             {
                 float distanceToMove = _speedMultiplier * Time.deltaTime;
@@ -65,7 +64,7 @@ namespace Gameplay.PLayer
         {
             bool isFreeToMove = false;
             Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
-            if (NoObjectInFront(moveDirX, speedMultiplier))
+            if (moveDir.x != 0 && NoObjectInFront(moveDirX, speedMultiplier))
             {
                 moveDir = moveDirX;
                 isFreeToMove = true;
@@ -73,7 +72,7 @@ namespace Gameplay.PLayer
             else
             {
                 Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;
-                if (NoObjectInFront(moveDirZ, speedMultiplier))
+                if (moveDir.z != 0 && NoObjectInFront(moveDirZ, speedMultiplier))
                 {
                     moveDir = moveDirZ;
                     isFreeToMove = true;

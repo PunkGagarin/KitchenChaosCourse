@@ -1,10 +1,33 @@
-using UnityEngine;
-
-public class EmptyCounter : MonoBehaviour
+namespace Gameplay.Counter
 {
 
-    public void Interact()
+    public class EmptyCounter : BaseCounter
     {
-        Debug.Log("we are interacting with Empty Counter");
+
+        public override void Interact(IKitchenItemParent kitchenItemParent)
+        {
+            if (!HasKitchenItem())
+            {
+                if (kitchenItemParent.HasKitchenItem())
+                {
+                    SetKitchenItem(kitchenItemParent.GetKitchenItem());
+                    kitchenItemParent.ClearKitchenItem();
+                }
+            }
+            else
+            {
+                if (!kitchenItemParent.HasKitchenItem())
+                {
+                    kitchenItemParent.SetKitchenItem(_currentKitchenItem);
+                    ClearKitchenItem();
+                }
+            }
+        }
+
+        public override void InteractAlternative(IKitchenItemParent playerKitchenItemHolder)
+        {
+        }
     }
+
+
 }
