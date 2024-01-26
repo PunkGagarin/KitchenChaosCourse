@@ -19,7 +19,7 @@ namespace Gameplay.Counter
             _selectedCounterVisual = GetComponent<SelectedCounterVisual>();
         }
 
-        public abstract void Interact(IKitchenItemParent kitchenItemParent);
+        public abstract void Interact(IKitchenItemParent player);
 
         public virtual void SetKitchenItem(KitchenItem currentKitchenItem)
         {
@@ -39,6 +39,12 @@ namespace Gameplay.Counter
             _currentKitchenItem = null; 
         }
 
+        public void ClearWithDestroy()
+        {
+            Destroy(_currentKitchenItem.gameObject);
+            ClearKitchenItem();
+        }
+
         public bool HasKitchenItem()
         {
             return _currentKitchenItem != null;
@@ -55,7 +61,10 @@ namespace Gameplay.Counter
             _selectedCounterVisual.TurnOffSelectedVisual();
         }
 
-        public abstract void InteractAlternative(IKitchenItemParent playerKitchenItemHolder);
+        public virtual void InteractAlternative(IKitchenItemParent playerKitchenItemHolder)
+        {
+            
+        }
     }
 
 }

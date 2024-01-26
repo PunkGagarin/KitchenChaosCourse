@@ -11,7 +11,7 @@ namespace Gameplay.KitchenObjects
         public KitchenItem Prefab { get; private set; }
 
         [field: SerializeField]
-        public Sprite Sprite1 { get; private set; }
+        public Sprite Sprite { get; private set; }
 
         [field: SerializeField]
         public KitchenItemType ItemType { get; private set; }

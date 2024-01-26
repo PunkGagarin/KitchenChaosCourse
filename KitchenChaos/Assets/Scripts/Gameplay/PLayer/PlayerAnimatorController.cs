@@ -6,8 +6,6 @@ namespace Gameplay.Player
 
     public class PlayerAnimatorController : MonoBehaviour
     {
-
-
         private PlayerMovement _playerMovement;
         private Animator _animator;
 
@@ -18,7 +16,7 @@ namespace Gameplay.Player
         {
             _playerMovement = GetComponent<PlayerMovement>();
             _animator = GetComponentInChildren<Animator>();
-        
+
             _playerMovement.OnStartWalking += OnStartWalkingHandle;
             _playerMovement.OnStopWalking += OnStopWalkingHandle;
         }
@@ -38,8 +36,6 @@ namespace Gameplay.Player
         {
             _animator.SetBool(IsMoving, false);
         }
-
-
     }
 
 }

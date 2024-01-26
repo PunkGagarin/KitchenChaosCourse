@@ -17,7 +17,7 @@ namespace Gameplay.Counter
         [Inject] private KitchenItemSpawner _kitchenItemSpawner;
 
         [SerializeField]
-        private SlicedItemRecipesSO _recipesSo;
+        private ItemRecipesSO _recipesSo;
 
         protected override void Awake()
         {
@@ -28,27 +28,40 @@ namespace Gameplay.Counter
         }
 
 
-        public override void Interact(IKitchenItemParent kitchenItemParent)
+        public override void Interact(IKitchenItemParent player)
         {
             if (!HasKitchenItem())
             {
-                if (kitchenItemParent.HasKitchenItem() && HasRecipeForPlayerItem(kitchenItemParent))
+                if (player.HasKitchenItem() && HasRecipeForPlayerItem(player))
                 {
-                    PlaceItemFromPlayerToCounter(kitchenItemParent);
+                    PlaceItemFromPlayerToCounter(player);
                 }
             }
             else
             {
-                if (!kitchenItemParent.HasKitchenItem())
+                if (player.HasKitchenItem())
                 {
-                    ReturnItemToPlayer(kitchenItemParent);
+                    var kitchenItem = player.GetKitchenItem();
+                    if (CanAddItemToPlate(kitchenItem))
+                    {
+                        ClearWithDestroy();
+                    }
+                }
+                else
+                {
+                    ReturnItemToPlayer(player);
                 }
             }
         }
 
         private bool HasRecipeForPlayerItem(IKitchenItemParent kitchenItemParent)
         {
-            return _recipesSo.HasRecipe(kitchenItemParent.GetKitchenItem().ItemType);
+            return _recipesSo.HasSlicedRecipe(kitchenItemParent.GetKitchenItem().ItemType);
+        }
+
+        private bool CanAddItemToPlate(KitchenItem kitchenItem)
+        {
+            return kitchenItem is PlateKitchenItem plate && plate.AddIngredient(_currentKitchenItem);
         }
 
         private void ReturnItemToPlayer(IKitchenItemParent kitchenItemParent)
@@ -66,7 +79,7 @@ namespace Gameplay.Counter
         public override void SetKitchenItem(KitchenItem currentKitchenItem)
         {
             base.SetKitchenItem(currentKitchenItem);
-            var sliceRecipe = _recipesSo.GetRecipeByType(currentKitchenItem.ItemType);
+            var sliceRecipe = _recipesSo.GetSlicedRecipeByType(currentKitchenItem.ItemType);
             _currentMaxSliceCount = sliceRecipe.CuttingCounter;
             _currentSliceCounter = 0;
             _progressBarUI.gameObject.SetActive(true);
@@ -78,7 +91,7 @@ namespace Gameplay.Counter
             if (_currentKitchenItem == null) return;
 
             var type = _currentKitchenItem.ItemType;
-            if (_recipesSo.HasRecipe(type) && !HasReachMaxSliceCounter())
+            if (_recipesSo.HasSlicedRecipe(type) && !HasReachMaxSliceCounter())
             {
                 _currentSliceCounter++;
                 _progressBarUI.SetImageProgressValue((float)(_currentSliceCounter) / _currentMaxSliceCount);
@@ -86,7 +99,7 @@ namespace Gameplay.Counter
 
                 if (HasReachMaxSliceCounter())
                 {
-                    var recipe = _recipesSo.GetRecipeByType(type);
+                    var recipe = _recipesSo.GetSlicedRecipeByType(type);
 
                     Destroy(_currentKitchenItem.gameObject);
 

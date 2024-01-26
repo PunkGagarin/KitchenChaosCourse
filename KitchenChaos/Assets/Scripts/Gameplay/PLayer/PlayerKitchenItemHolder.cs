@@ -10,7 +10,7 @@ namespace Gameplay.Player
 
         [SerializeField]
         private Transform _kitchenItemHoldingPoint;
-        
+
         public void SetKitchenItem(KitchenItem currentKitchenItem)
         {
             _currentKitchenItem = currentKitchenItem;
@@ -31,6 +31,12 @@ namespace Gameplay.Player
 
         public void ClearKitchenItem()
         {
+            _currentKitchenItem = null;
+        }
+
+        public void ClearWithDestroy()
+        {
+            Destroy(_currentKitchenItem.gameObject);
             _currentKitchenItem = null;
         }
 

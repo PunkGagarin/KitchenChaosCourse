@@ -10,21 +10,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69cbe54f9ace4965a6776469fce589c3, type: 3}
-  m_Name: SlicedItemRecipes
+  m_Name: ItemRecipes
   m_EditorClassIdentifier: 
   _slicedRecipes:
-  - _key: 0
+  - _key: 1
     _value:
       <SlicedItemSo>k__BackingField: {fileID: 11400000, guid: 8c5a98b37f35d8046a5212893593d1f0,
         type: 2}
       <CuttingCounter>k__BackingField: 3
-  - _key: 2
+  - _key: 3
     _value:
       <SlicedItemSo>k__BackingField: {fileID: 11400000, guid: 72e873ef06f2f57459cdfd124246117f,
         type: 2}
       <CuttingCounter>k__BackingField: 3
-  - _key: 1
+  - _key: 2
     _value:
       <SlicedItemSo>k__BackingField: {fileID: 11400000, guid: 46040958696873b47a2e5a3d1e6656e6,
         type: 2}
       <CuttingCounter>k__BackingField: 5
+  _fryingRecipes:
+  - _key: 4
+    _value:
+      <FriedItemSo>k__BackingField: {fileID: 11400000, guid: 59c174804de15e643b2d3d197bc1a2d0,
+        type: 2}
+      <FryingTimerMax>k__BackingField: 3
+  _burningRecipes:
+  - _key: 30
+    _value:
+      <BurnedItemSo>k__BackingField: {fileID: 11400000, guid: c576c638f66002941b537fe7c7a65079,
+        type: 2}
+      <BurningMaxTiming>k__BackingField: 5

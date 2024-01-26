@@ -1,31 +1,51 @@
+using Gameplay.KitchenObjects;
+
 namespace Gameplay.Counter
 {
 
     public class EmptyCounter : BaseCounter
     {
 
-        public override void Interact(IKitchenItemParent kitchenItemParent)
+        public override void Interact(IKitchenItemParent player)
         {
             if (!HasKitchenItem())
             {
-                if (kitchenItemParent.HasKitchenItem())
+                if (player.HasKitchenItem())
                 {
-                    SetKitchenItem(kitchenItemParent.GetKitchenItem());
-                    kitchenItemParent.ClearKitchenItem();
+                    SetKitchenItem(player.GetKitchenItem());
+                    player.ClearKitchenItem();
                 }
             }
             else
             {
-                if (!kitchenItemParent.HasKitchenItem())
+                if (player.HasKitchenItem())
                 {
-                    kitchenItemParent.SetKitchenItem(_currentKitchenItem);
+                    var kitchenItem = player.GetKitchenItem();
+                    if (CanAddItemToPlayerPlate(kitchenItem))
+                    {
+                        ClearWithDestroy();
+                    }
+                    else if (CanAddItemToPlateOnCounter(kitchenItem))
+                    {
+                        player.ClearWithDestroy();
+                    }
+                }
+                else
+                {
+                    player.SetKitchenItem(_currentKitchenItem);
                     ClearKitchenItem();
                 }
             }
         }
 
-        public override void InteractAlternative(IKitchenItemParent playerKitchenItemHolder)
+        private bool CanAddItemToPlateOnCounter(KitchenItem kitchenItem)
         {
+            return _currentKitchenItem is PlateKitchenItem plate && plate.AddIngredient(kitchenItem);
+        }
+
+        private bool CanAddItemToPlayerPlate(KitchenItem kitchenItem)
+        {
+            return kitchenItem is PlateKitchenItem plate && plate.AddIngredient(_currentKitchenItem);
         }
     }
 

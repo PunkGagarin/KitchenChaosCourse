@@ -16,13 +16,13 @@ namespace Gameplay.Counter
 
         public Action OnKitchenItemSpawn = delegate { };
 
-        public override void Interact(IKitchenItemParent playerHolder)
+        public override void Interact(IKitchenItemParent player)
         {
-            if (!playerHolder.HasKitchenItem())
+            if (!player.HasKitchenItem())
             {
                 KitchenItem kitchenItem = _itemSpawner.SpawnKitchenItem(_kitchenItemSo.Prefab, _onTopSpawnPoint);
                 
-                playerHolder.SetKitchenItem(kitchenItem);
+                player.SetKitchenItem(kitchenItem);
                 OnKitchenItemSpawn.Invoke();
             }
         }

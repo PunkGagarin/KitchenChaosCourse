@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Prefab>k__BackingField: {fileID: 734894610915730593, guid: db1defcd7c86253428e9a8e542e9708f,
     type: 3}
-  <Sprite1>k__BackingField: {fileID: 21300000, guid: aa1bacc24dde76e47b2ec0dd4e82385b,
+  <Sprite>k__BackingField: {fileID: 21300000, guid: aa1bacc24dde76e47b2ec0dd4e82385b,
     type: 3}
   <ItemType>k__BackingField: 4
