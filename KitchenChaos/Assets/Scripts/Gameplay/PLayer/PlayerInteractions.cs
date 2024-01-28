@@ -19,19 +19,19 @@ namespace Gameplay.Player
         [SerializeField]
         private float _interactionDistance;
 
-        [Inject] private GameInput _gameInput;
+        [Inject] private GameInputController _gameInputController;
 
         private void Awake()
         {
-            _gameInput.OnInteractTry += OnInteractInputHandle;
-            _gameInput.OnInteractAlternativeTry += OnInteractAlternativeInputHandle;
+            _gameInputController.OnInteractTry += OnInteractInputHandle;
+            _gameInputController.OnInteractAlternativeTry += OnInteractAlternativeInputHandle;
             _playerKitchenItemHolder = GetComponent<PlayerKitchenItemHolder>();
         }
 
         private void OnDestroy()
         {
-            _gameInput.OnInteractTry -= OnInteractInputHandle;
-            _gameInput.OnInteractAlternativeTry -= OnInteractAlternativeInputHandle;
+            _gameInputController.OnInteractTry -= OnInteractInputHandle;
+            _gameInputController.OnInteractAlternativeTry -= OnInteractAlternativeInputHandle;
         }
 
         private void OnInteractInputHandle()
@@ -74,7 +74,7 @@ namespace Gameplay.Player
         private BaseCounter CheckCounterWithRaycast()
         {
             BaseCounter raycastedCounter = null;
-            Vector3 direction = _gameInput.GetLastNonZeroMoveVector3Normalized();
+            Vector3 direction = _gameInputController.GetLastNonZeroMoveVector3Normalized();
 
             if (direction != Vector3.zero)
             {

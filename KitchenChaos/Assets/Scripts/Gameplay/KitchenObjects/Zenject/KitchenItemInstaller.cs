@@ -1,5 +1,6 @@
-﻿using Gameplay.KitchenObjects.Scriptables;
+﻿using Gameplay.Controllers;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Gameplay.KitchenObjects.Zenject
@@ -8,14 +9,13 @@ namespace Gameplay.KitchenObjects.Zenject
     public class KitchenItemInstaller : MonoInstaller
     {
 
-        [SerializeField]
-        private KitchenItemSoFactory _kitchenItemSoFactory;
+        [FormerlySerializedAs("_deliveryController")] [SerializeField]
+        private DeliveryManager _deliveryManager;
         
 
         public override void InstallBindings()
         {
-            Container.Bind<KitchenItemSoFactory>().FromNewScriptableObject(_kitchenItemSoFactory);
-            // Container.Bind<KitchenItemSoFactory>().FromScriptableObjectResource("KitchenObjects/KitchenItemSoFactory.asset");
+            Container.Bind<DeliveryManager>().FromInstance(_deliveryManager);
         }
     }
 

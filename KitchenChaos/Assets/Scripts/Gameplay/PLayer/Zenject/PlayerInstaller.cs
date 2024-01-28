@@ -3,13 +3,14 @@ using Gameplay.KitchenObjects;
 using Gameplay.Player;
 using Gameplay.PLayer;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 public class PlayerInstaller : MonoInstaller
 {
 
-    [SerializeField]
-    private GameInput _gameInput;
+    [FormerlySerializedAs("_gameInput")] [SerializeField]
+    private GameInputController _gameInputController;
 
     [SerializeField]
     private PlayerMovement _playerMovement;
@@ -25,8 +26,8 @@ public class PlayerInstaller : MonoInstaller
 
         Container.BindInterfacesAndSelfTo<KitchenItemSpawner>().AsSingle();
         
-        Container.BindInterfacesAndSelfTo<GameInput>()
-            .FromInstance(_gameInput)
+        Container.BindInterfacesAndSelfTo<GameInputController>()
+            .FromInstance(_gameInputController)
             .AsSingle();
 
         Container.BindInterfacesAndSelfTo<PlayerInteractions>()

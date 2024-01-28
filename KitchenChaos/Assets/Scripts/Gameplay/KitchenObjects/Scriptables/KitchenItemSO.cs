@@ -3,7 +3,7 @@
 namespace Gameplay.KitchenObjects
 {
 
-    [CreateAssetMenu(menuName = "Gameplay/KitchenItem", fileName = "new KitchenObject")]
+    [CreateAssetMenu(menuName = "Gameplay/KitchenItems/KitchenItem", fileName = "new KitchenObject")]
     public class KitchenItemSO : ScriptableObject
     {
 

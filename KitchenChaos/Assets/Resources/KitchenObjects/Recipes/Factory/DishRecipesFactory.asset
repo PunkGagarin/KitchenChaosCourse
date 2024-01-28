@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38b5db6f4de746ef80750bc74c90b31c, type: 3}
+  m_Name: DishRecipesFactory
+  m_EditorClassIdentifier: 
+  <recipes>k__BackingField:
+  - {fileID: 11400000, guid: e75cc1133974a7b4e9d6abbf2ab570d3, type: 2}
+  - {fileID: 11400000, guid: fab0a3d18877ba8488a21ed67d5bd6db, type: 2}
+  - {fileID: 11400000, guid: 0af1915e0cb97d2448dbec80e3fd4c2e, type: 2}
+  - {fileID: 11400000, guid: b6baec0283b8a2a418bd78570f28b64b, type: 2}

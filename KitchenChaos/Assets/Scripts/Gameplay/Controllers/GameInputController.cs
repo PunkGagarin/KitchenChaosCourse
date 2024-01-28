@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 namespace Gameplay
 {
 
-    public class GameInput : MonoBehaviour
+    public class GameInputController : MonoBehaviour
     {
         private PlayerInputAction _inputAction;
         private Vector3 _lastNonZeroMoveInput;

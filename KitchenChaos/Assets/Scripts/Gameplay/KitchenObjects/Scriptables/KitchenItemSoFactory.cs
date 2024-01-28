@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Gameplay.KitchenObjects.Scriptables
 {
 
-    [CreateAssetMenu(menuName = "Gameplay/KitchenItem/SoFactory", fileName = "KitchenItemSoFactory")]
+    //[CreateAssetMenu(menuName = "Gameplay/KitchenItems/KitchenItemsSoFactory", fileName = "KitchenItemSoFactory")]
     public class KitchenItemSoFactory : ScriptableObject
     {
 

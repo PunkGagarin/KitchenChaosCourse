@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Gameplay.KitchenObjects
 {
 
-    [CreateAssetMenu(menuName = "Gameplay/SlicedItemRecipes", fileName = "new SlicedItemRecipes")]
+    [CreateAssetMenu(menuName = "Gameplay/KitchenItems/SlicedItemRecipes", fileName = "SlicedItemRecipes")]
     public class ItemRecipesSO : ScriptableObject
     {
 

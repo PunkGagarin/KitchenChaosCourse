@@ -8,10 +8,11 @@ namespace Gameplay.KitchenObjects
     public class PlateKitchenItem : KitchenItem
     {
 
-        private List<KitchenItemType> _addedItemTypes = new();
 
         [SerializeField]
         private List<KitchenItemType> _validTypes;
+
+        public List<KitchenItemType> AddedItemTypes { get; private set; } = new();
 
         public Action<KitchenItemType> OnKitchenItemAdded = delegate { };
 
@@ -19,15 +20,15 @@ namespace Gameplay.KitchenObjects
         {
             bool hasAdd;
 
-            if (!_validTypes.Contains(item.ItemType) || _addedItemTypes.Contains(item.ItemType))
+            if (!_validTypes.Contains(item.ItemType) || AddedItemTypes.Contains(item.ItemType))
             {
                 hasAdd = false;
             }
             else
             {
-                _addedItemTypes.Add(item.ItemType);
+                AddedItemTypes.Add(item.ItemType);
                 hasAdd = true;
-                
+
                 OnKitchenItemAdded.Invoke(item.ItemType);
             }
 
