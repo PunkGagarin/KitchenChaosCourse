@@ -1,5 +1,7 @@
-﻿using Gameplay.KitchenObjects;
+﻿using Gameplay.Audio;
+using Gameplay.KitchenObjects;
 using UnityEngine;
+using Zenject;
 
 namespace Gameplay.Counter
 {
@@ -11,8 +13,11 @@ namespace Gameplay.Counter
 
         protected KitchenItem _currentKitchenItem;
 
+        [Inject] protected SoundManager _soundManager;
+
         [SerializeField]
         protected Transform _onTopSpawnPoint;
+
 
         protected virtual void Awake()
         {
@@ -23,10 +28,13 @@ namespace Gameplay.Counter
 
         public virtual void SetKitchenItem(KitchenItem currentKitchenItem)
         {
+            if (currentKitchenItem == null) return;
+
             _currentKitchenItem = currentKitchenItem;
             _currentKitchenItem.transform.parent = _onTopSpawnPoint;
             _currentKitchenItem.SetKitchenItemParent(this);
             _currentKitchenItem.transform.localPosition = Vector3.zero;
+            _soundManager.PlayRandomSoundByType(GameAudioType.ItemDrop, transform);
         }
 
         public KitchenItem GetKitchenItem()
@@ -36,7 +44,7 @@ namespace Gameplay.Counter
 
         public virtual void ClearKitchenItem()
         {
-            _currentKitchenItem = null; 
+            _currentKitchenItem = null;
         }
 
         public void ClearWithDestroy()
@@ -63,7 +71,6 @@ namespace Gameplay.Counter
 
         public virtual void InteractAlternative(IKitchenItemParent playerKitchenItemHolder)
         {
-            
         }
     }
 

@@ -9,7 +9,7 @@ namespace Gameplay.KitchenObjects.Scriptables
     public class KitchenItemSoFactory : ScriptableObject
     {
 
-        private List<KitchenItemSO> _kitchenItemSos;
+        private List<KitchenItemSO> _kitchenItemSos = new();
 
 
         public KitchenItemSO GetKitchenItemSoByType(KitchenItemType type)
@@ -30,7 +30,7 @@ namespace Gameplay.KitchenObjects.Scriptables
         {
             if (_kitchenItemSos.Count <= 0)
             {
-                _kitchenItemSos = Resources.LoadAll<KitchenItemSO>("KitchenObjects").ToList();
+                _kitchenItemSos = Resources.LoadAll<KitchenItemSO>("KitchenItems").ToList();
             }
         }
     }

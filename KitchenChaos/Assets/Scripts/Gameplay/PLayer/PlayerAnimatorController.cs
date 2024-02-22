@@ -17,14 +17,14 @@ namespace Gameplay.Player
             _playerMovement = GetComponent<PlayerMovement>();
             _animator = GetComponentInChildren<Animator>();
 
-            _playerMovement.OnStartWalking += OnStartWalkingHandle;
-            _playerMovement.OnStopWalking += OnStopWalkingHandle;
+            _playerMovement.OnStartMoving += OnStartWalkingHandle;
+            _playerMovement.OnStopMoving += OnStopWalkingHandle;
         }
 
         private void OnDestroy()
         {
-            _playerMovement.OnStartWalking -= OnStartWalkingHandle;
-            _playerMovement.OnStopWalking -= OnStopWalkingHandle;
+            _playerMovement.OnStartMoving -= OnStartWalkingHandle;
+            _playerMovement.OnStopMoving -= OnStopWalkingHandle;
         }
 
         private void OnStartWalkingHandle()

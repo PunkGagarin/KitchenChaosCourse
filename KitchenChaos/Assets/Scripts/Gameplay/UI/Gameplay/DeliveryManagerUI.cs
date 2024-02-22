@@ -71,9 +71,9 @@ namespace Gameplay.UI.Gameplay
             }
         }
 
-        private void OnOrderCompleted(RecipeType recipeType)
+        private void OnOrderCompleted(OrderCompletedEventArgs orderCompletedEventArgs)
         {
-            TurnOffRecipeUiFor(recipeType);
+            TurnOffRecipeUiFor(orderCompletedEventArgs.recipeType);
         }
 
         private void TurnOffRecipeUiFor(RecipeType recipeType)

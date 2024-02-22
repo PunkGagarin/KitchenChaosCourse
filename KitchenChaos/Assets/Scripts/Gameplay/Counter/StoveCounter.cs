@@ -1,4 +1,5 @@
 ﻿using System;
+using Gameplay.Audio.Counters;
 using Gameplay.KitchenObjects;
 using UnityEngine;
 using Zenject;
@@ -15,15 +16,28 @@ namespace Gameplay.Counter
         private float _currentBurningTime;
         private float _maxBurningTime;
 
+        
         private StoveState _currentState;
+        private StoveState CurrentState
+        {
+            get => _currentState;
+            set
+            {
+                _currentState = value;
+                OnStateChanged(value);
+            }
+        }
 
         private CuttingProgressBarUI _progressBarUI;
         private StoveCounterVisual _stoveCounterVisual;
+        private StoveCounterSound _stoveCounterSound;
 
         [Inject] private KitchenItemSpawner _kitchenItemSpawner;
 
         [SerializeField]
         private ItemRecipesSO _recipesSo;
+
+        public Action<StoveState> OnStateChanged = delegate { };
 
 
         protected override void Awake()
@@ -36,14 +50,14 @@ namespace Gameplay.Counter
 
         private void Start()
         {
-            _currentState = StoveState.Idle;
+            CurrentState = StoveState.Idle;
         }
 
         private void Update()
         {
             if (!HasKitchenItem()) return;
 
-            switch (_currentState)
+            switch (CurrentState)
             {
                 case StoveState.Idle:
                     break;
@@ -64,10 +78,12 @@ namespace Gameplay.Counter
         {
             _currentFryingTime += Time.deltaTime;
             _progressBarUI.SetImageProgressValue(_currentFryingTime / _maxFryingTime);
+
             if (_currentFryingTime >= _maxFryingTime)
             {
                 ChangeCurrentItemToFriedVersion();
-                _currentState = StoveState.Fried;
+                CurrentState = StoveState.Fried;
+                //TODO: play sound
             }
         }
 
@@ -92,7 +108,8 @@ namespace Gameplay.Counter
             if (_currentBurningTime >= _maxBurningTime)
             {
                 ChangeToBurnedVersion();
-                _currentState = StoveState.Burned;
+                CurrentState = StoveState.Burned;
+                //TODO: stop PLaySound
             }
         }
 
@@ -117,7 +134,8 @@ namespace Gameplay.Counter
                 if (player.HasKitchenItem() && HasRecipeForPlayerItem(player))
                 {
                     PlaceItemFromPlayerToCounter(player);
-                    _currentState = StoveState.Frying;
+                    CurrentState = StoveState.Frying;
+                    //TODO: play sound
                     _stoveCounterVisual.TurnOnVisualEffects();
                 }
             }
@@ -129,14 +147,14 @@ namespace Gameplay.Counter
                     if (CanAddItemToPlate(kitchenItem))
                     {
                         ClearWithDestroy();
-                        _currentState = StoveState.Idle;
+                        CurrentState = StoveState.Idle;
                         _stoveCounterVisual.TurnOffVisualEffects();
                     }
                 }
                 else
                 {
                     ReturnItemToPlayer(player);
-                    _currentState = StoveState.Idle;
+                    CurrentState = StoveState.Idle;
                     _stoveCounterVisual.TurnOffVisualEffects();
                 }
             }
@@ -199,13 +217,6 @@ namespace Gameplay.Counter
             _progressBarUI.gameObject.SetActive(false);
         }
 
-        private enum StoveState
-        {
-            Idle,
-            Frying,
-            Fried,
-            Burned
-        }
     }
 
 }

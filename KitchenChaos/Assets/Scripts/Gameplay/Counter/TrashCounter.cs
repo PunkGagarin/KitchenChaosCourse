@@ -1,4 +1,6 @@
-﻿namespace Gameplay.Counter
+﻿using Gameplay.Audio;
+
+namespace Gameplay.Counter
 {
 
     public class TrashCounter : BaseCounter
@@ -11,6 +13,7 @@
                 var ki = player.GetKitchenItem();
                 Destroy(ki.gameObject);
                 player.ClearKitchenItem();
+                _soundManager.PlayRandomSoundByType(GameAudioType.Trash, transform);
             }
         }
     }

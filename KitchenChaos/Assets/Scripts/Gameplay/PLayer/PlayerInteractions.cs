@@ -21,6 +21,8 @@ namespace Gameplay.Player
 
         [Inject] private GameInputController _gameInputController;
 
+        [Inject] private KitchenGameManager _gameManager;
+
         private void Awake()
         {
             _gameInputController.OnInteractTry += OnInteractInputHandle;
@@ -36,6 +38,8 @@ namespace Gameplay.Player
 
         private void OnInteractInputHandle()
         {
+            if (!_gameManager.IsGamePlaying()) return;
+
             if (_selectedCounter != null)
             {
                 _selectedCounter.Interact(_playerKitchenItemHolder);
@@ -44,6 +48,8 @@ namespace Gameplay.Player
 
         private void OnInteractAlternativeInputHandle()
         {
+            if (!_gameManager.IsGamePlaying()) return;
+
             if (_selectedCounter != null)
             {
                 _selectedCounter.InteractAlternative(_playerKitchenItemHolder);
@@ -63,7 +69,7 @@ namespace Gameplay.Player
             {
                 if (_selectedCounter != null)
                     _selectedCounter.TurnOffSelectedVisual();
-                
+
                 if (newSelectedCounter != null)
                     newSelectedCounter.TurnOnSelectedVisual();
 

@@ -9,7 +9,7 @@ namespace Gameplay.PLayer
     public class PlayerMovement : MonoBehaviour
     {
 
-        private bool _isWalking;
+        private bool _isMoving;
 
         [SerializeField]
         private float _speedMultiplier = 5f;
@@ -26,8 +26,8 @@ namespace Gameplay.PLayer
         [Inject] private GameInputController _gameInputController;
         [Inject] private PlayerInteractions _playerInteractions;
 
-        public Action OnStartWalking = delegate { };
-        public Action OnStopWalking = delegate { };
+        public Action OnStartMoving = delegate { };
+        public Action OnStopMoving = delegate { };
 
         public void Update()
         {
@@ -91,10 +91,10 @@ namespace Gameplay.PLayer
 
         private void Move(float speedMultiplier, Vector3 moveDir)
         {
-            if (!_isWalking)
+            if (!_isMoving)
             {
-                _isWalking = true;
-                OnStartWalking.Invoke();
+                _isMoving = true;
+                OnStartMoving.Invoke();
             }
 
             transform.position += moveDir * speedMultiplier;
@@ -102,10 +102,10 @@ namespace Gameplay.PLayer
 
         private void TryStopMoving()
         {
-            if (_isWalking)
+            if (_isMoving)
             {
-                _isWalking = false;
-                OnStopWalking.Invoke();
+                _isMoving = false;
+                OnStopMoving.Invoke();
             }
         }
 
@@ -113,6 +113,11 @@ namespace Gameplay.PLayer
         {
             //Changing blue axis of the object. Because object is rotated in 180 degrees, i use minus moveDir (-moveDir)
             transform.forward = Vector3.Slerp(transform.forward, -moveDir, _rotateSpeed * Time.deltaTime);
+        }
+
+        public bool IsMoving()
+        {
+            return _isMoving;
         }
     }
 

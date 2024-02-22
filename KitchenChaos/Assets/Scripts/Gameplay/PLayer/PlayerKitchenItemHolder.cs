@@ -1,4 +1,5 @@
-﻿using Gameplay.KitchenObjects;
+﻿using System;
+using Gameplay.KitchenObjects;
 using UnityEngine;
 
 namespace Gameplay.Player
@@ -11,12 +12,17 @@ namespace Gameplay.Player
         [SerializeField]
         private Transform _kitchenItemHoldingPoint;
 
+        public Action<Transform> OnSetKitchenItem = delegate { };
+
         public void SetKitchenItem(KitchenItem currentKitchenItem)
         {
+            if (currentKitchenItem == null) return;
+
             _currentKitchenItem = currentKitchenItem;
             _currentKitchenItem.transform.parent = _kitchenItemHoldingPoint;
             _currentKitchenItem.SetKitchenItemParent(this);
             _currentKitchenItem.transform.localPosition = Vector3.zero;
+            OnSetKitchenItem.Invoke(transform);
         }
 
         public Transform GetKitchenItemFollowTransform()

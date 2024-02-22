@@ -1,4 +1,6 @@
-﻿using Gameplay.KitchenObjects;
+﻿using System;
+using Gameplay.Audio;
+using Gameplay.KitchenObjects;
 using UnityEngine;
 using Zenject;
 
@@ -26,7 +28,6 @@ namespace Gameplay.Counter
             _progressBarUI.gameObject.SetActive(false);
             _cuttingCounterAnimation = GetComponentInChildren<CuttingCounterAnimation>();
         }
-
 
         public override void Interact(IKitchenItemParent player)
         {
@@ -96,6 +97,7 @@ namespace Gameplay.Counter
                 _currentSliceCounter++;
                 _progressBarUI.SetImageProgressValue((float)(_currentSliceCounter) / _currentMaxSliceCount);
                 _cuttingCounterAnimation.PlayOpenAnimation();
+                _soundManager.PlayRandomSoundByType(GameAudioType.Chop ,transform);
 
                 if (HasReachMaxSliceCounter())
                 {
