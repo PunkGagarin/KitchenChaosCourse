@@ -15,7 +15,6 @@ namespace Gameplay.Counter
 
         private float _currentBurningTime;
         private float _maxBurningTime;
-
         
         private StoveState _currentState;
         private StoveState CurrentState
@@ -29,8 +28,12 @@ namespace Gameplay.Counter
         }
 
         private CuttingProgressBarUI _progressBarUI;
+        private StoveWarningUi _stoveWarningUi;
         private StoveCounterVisual _stoveCounterVisual;
         private StoveCounterSound _stoveCounterSound;
+        
+        [SerializeField]
+        private CuttingProgressBarBurningAnimationUI _burningAnimationUI;
 
         [Inject] private KitchenItemSpawner _kitchenItemSpawner;
 
@@ -39,13 +42,16 @@ namespace Gameplay.Counter
 
         public Action<StoveState> OnStateChanged = delegate { };
 
-
         protected override void Awake()
         {
             base.Awake();
             _progressBarUI = GetComponentInChildren<CuttingProgressBarUI>();
             _progressBarUI.gameObject.SetActive(false);
+            _stoveWarningUi = GetComponentInChildren<StoveWarningUi>();
             _stoveCounterVisual = GetComponentInChildren<StoveCounterVisual>();
+            _stoveCounterSound = GetComponentInChildren<StoveCounterSound>();
+            //todo: разобраться
+            // _burningAnimationUI = GetComponentInChildren<CuttingProgressBarBurningAnimationUI>();
         }
 
         private void Start()
@@ -104,11 +110,22 @@ namespace Gameplay.Counter
         private void FriedHandle()
         {
             _currentBurningTime += Time.deltaTime;
-            _progressBarUI.SetImageProgressValue(_currentBurningTime / _maxBurningTime);
+            float currentBurningRate = _currentBurningTime / _maxBurningTime;
+            _progressBarUI.SetImageProgressValue(currentBurningRate);
+
+            if (currentBurningRate >= 0.5)
+            {
+                _stoveWarningUi.Show();
+                _stoveCounterSound.PlayWarningSound();
+                _burningAnimationUI.TurnOnAnimation();
+            }
             if (_currentBurningTime >= _maxBurningTime)
             {
                 ChangeToBurnedVersion();
                 CurrentState = StoveState.Burned;
+                _stoveWarningUi.Hide();
+                _stoveCounterSound.StopPlayingWarningSound();
+                _burningAnimationUI.TurnOffAnimation();
                 //TODO: stop PLaySound
             }
         }
@@ -157,6 +174,9 @@ namespace Gameplay.Counter
                     CurrentState = StoveState.Idle;
                     _stoveCounterVisual.TurnOffVisualEffects();
                 }
+                _stoveWarningUi.Hide();
+                _stoveCounterSound.StopPlayingWarningSound();
+                _burningAnimationUI.TurnOffAnimation();
             }
         }
 

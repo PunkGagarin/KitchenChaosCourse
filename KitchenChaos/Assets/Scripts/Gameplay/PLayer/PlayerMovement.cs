@@ -23,7 +23,7 @@ namespace Gameplay.PLayer
         [SerializeField]
         private float _raycastRadius = .6f;
 
-        [Inject] private GameInputController _gameInputController;
+        [Inject] private GameInputManager _gameInputManager;
         [Inject] private PlayerInteractions _playerInteractions;
 
         public Action OnStartMoving = delegate { };
@@ -31,7 +31,7 @@ namespace Gameplay.PLayer
 
         public void Update()
         {
-            var moveDir = _gameInputController.GetVector3InputNormalized();
+            var moveDir = _gameInputManager.GetVector3InputNormalized();
             HandleMovement(moveDir);
         }
 

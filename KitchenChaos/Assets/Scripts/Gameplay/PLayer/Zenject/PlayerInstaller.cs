@@ -9,8 +9,8 @@ using Zenject;
 public class PlayerInstaller : MonoInstaller
 {
 
-    [FormerlySerializedAs("_gameInput")] [SerializeField]
-    private GameInputController _gameInputController;
+    [FormerlySerializedAs("_gameInputController")] [FormerlySerializedAs("_gameInput")] [SerializeField]
+    private GameInputManager _gameInputManager;
 
     [SerializeField]
     private PlayerMovement _playerMovement;
@@ -26,8 +26,8 @@ public class PlayerInstaller : MonoInstaller
 
         Container.BindInterfacesAndSelfTo<KitchenItemSpawner>().AsSingle();
         
-        Container.BindInterfacesAndSelfTo<GameInputController>()
-            .FromInstance(_gameInputController)
+        Container.BindInterfacesAndSelfTo<GameInputManager>()
+            .FromInstance(_gameInputManager)
             .AsSingle();
 
         Container.BindInterfacesAndSelfTo<PlayerInteractions>()

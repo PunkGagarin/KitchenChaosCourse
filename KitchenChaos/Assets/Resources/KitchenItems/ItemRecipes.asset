@@ -39,4 +39,4 @@ MonoBehaviour:
     _value:
       <BurnedItemSo>k__BackingField: {fileID: 11400000, guid: c576c638f66002941b537fe7c7a65079,
         type: 2}
-      <BurningMaxTiming>k__BackingField: 5
+      <BurningMaxTiming>k__BackingField: 6

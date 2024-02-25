@@ -17,6 +17,7 @@ namespace Gameplay.Counter
         private PlatesCounterVisual _visual;
 
         [Inject] private KitchenItemSpawner _spawner;
+        [Inject] private KitchenGameManager _kitchenGameManager;
 
         [SerializeField]
         private KitchenItemSO _kitchenItemSo;
@@ -34,6 +35,12 @@ namespace Gameplay.Counter
         }
 
         private void Update()
+        {
+            if (!_kitchenGameManager.IsGamePlaying()) return;
+            SpawnPlate();
+        }
+
+        private void SpawnPlate()
         {
             _currentSpawnTimer += Time.deltaTime;
             if (_currentSpawnTimer >= _defaultSpawnTimer)

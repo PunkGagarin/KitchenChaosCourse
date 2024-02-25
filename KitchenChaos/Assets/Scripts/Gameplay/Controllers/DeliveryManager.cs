@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Gameplay.KitchenObjects;
 using Gameplay.KitchenObjects.Dishes;
 using UnityEngine;
+using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Gameplay.Controllers
@@ -15,6 +16,7 @@ namespace Gameplay.Controllers
 
         private float _currentSpawnTimer;
 
+        [Inject] private KitchenGameManager _kitchenGameManager;
 
         [SerializeField]
         private float _spawnTimerMax = 5f;
@@ -39,6 +41,7 @@ namespace Gameplay.Controllers
 
         private void Update()
         {
+            if (!_kitchenGameManager.IsGamePlaying()) return;
             CreateRecipe();
         }
 

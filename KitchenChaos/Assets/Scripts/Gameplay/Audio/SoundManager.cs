@@ -1,3 +1,4 @@
+using System;
 using Gameplay.Controllers;
 using Gameplay.Counter;
 using Gameplay.Player;
@@ -7,8 +8,9 @@ using Zenject;
 namespace Gameplay.Audio
 {
 
-    public class SoundManager : MonoBehaviour
+    public class SoundManager : BaseAudioManager
     {
+        private const string PLAYER_PREFS_NAME = "SoundEffectVolume";
         private const float DEFAULT_VOLUME = 1f;
 
         [Inject] private DeliveryManager _deliveryManager;
@@ -16,6 +18,12 @@ namespace Gameplay.Audio
 
         [SerializeField]
         private SoundsFactorySO _soundsFactory;
+
+        private void Awake()
+        {
+            SetPlayerPrefsName();
+            Volume = PlayerPrefs.GetFloat(PLAYER_PREFS_NAME, DEFAULT_VOLUME);
+        }
 
         private void Start()
         {
@@ -57,21 +65,38 @@ namespace Gameplay.Audio
             PlaySound(soundToPlay, transform.position);
         }
 
-        public void PlayRandomSoundByType(GameAudioType itemDrop, Transform transform, float volume)
+        public void PlayRandomSoundByType(GameAudioType type, Transform transform, float volumeMultiplier)
         {
-            var soundToPlay = GetRandomSoundByType(itemDrop);
-            PlaySound(soundToPlay, transform.position, volume);
+            var soundToPlay = GetRandomSoundByType(type);
+            PlaySound(soundToPlay, transform.position, volumeMultiplier);
         }
 
-        public void PlayRandomSoundByType(GameAudioType itemDrop, Transform transform)
+        public void PlayRandomSoundByType(GameAudioType type, Transform transform)
         {
-            var soundToPlay = GetRandomSoundByType(itemDrop);
+            var soundToPlay = GetRandomSoundByType(type);
             PlaySound(soundToPlay, transform.position);
         }
 
-        private void PlaySound(AudioClip clip, Vector3 position, float volume = DEFAULT_VOLUME)
+        public void PlayRandomSoundByType(GameAudioType type, Vector3 position)
         {
-            AudioSource.PlayClipAtPoint(clip, position, volume);
+            var soundToPlay = GetRandomSoundByType(type);
+            PlaySound(soundToPlay, position);
+        }
+
+        public void PlaySoundByType(GameAudioType type,int soundIndex,  Vector3 position)
+        {
+            var soundToPlay = _soundsFactory.GetClipByTypeAndIndex(type, soundIndex);
+            PlaySound(soundToPlay, position);
+        }
+
+        private void PlaySound(AudioClip clip, Vector3 position, float volumeMultiplier = DEFAULT_VOLUME)
+        {
+            AudioSource.PlayClipAtPoint(clip, position, volumeMultiplier * Volume);
+        }
+
+        protected override void SetPlayerPrefsName()
+        {
+            _playerPrefsName = PLAYER_PREFS_NAME;
         }
     }
 

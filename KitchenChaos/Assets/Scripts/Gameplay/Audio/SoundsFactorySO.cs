@@ -27,6 +27,24 @@ namespace Gameplay.Audio
             
             return clipToReturn;
         }
+
+        public AudioClip GetClipByTypeAndIndex(GameAudioType type, int index)
+        {
+            AudioClip clipToReturn = null;
+            var audioList = _clips.FirstOrDefault(el => el.key == type);
+            
+            if (audioList != null)
+            {
+                clipToReturn = audioList.value[index];
+            }
+            
+            if (clipToReturn == null)
+            {
+                Debug.LogError("Clip not found: " + type);
+            }
+            
+            return clipToReturn;
+        }
     }
 
 }

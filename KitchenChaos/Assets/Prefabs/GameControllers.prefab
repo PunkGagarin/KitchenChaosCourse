@@ -217,8 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _waitingStartTimer: 1
-  _gameTimerMax: 3
-  _state: 0
+  _gameTimerMax: 40
   <CountDownTimer>k__BackingField: 3
 --- !u!1 &6239180192470164180
 GameObject:
@@ -230,6 +229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3877327228028258607}
   - component: {fileID: 5677092772951035395}
+  - component: {fileID: 4457617534564305986}
   m_Layer: 0
   m_Name: MusicManager
   m_TagString: Untagged
@@ -348,3 +348,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4457617534564305986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6239180192470164180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 444a1ac90da5be7429452c862c3e38bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
