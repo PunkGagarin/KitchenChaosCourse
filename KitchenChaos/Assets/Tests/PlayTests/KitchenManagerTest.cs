@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using Gameplay;
-using Gameplay.Shapes;
 using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
@@ -27,7 +26,11 @@ public class KitchenManagerTest
 
         _container.Bind<KitchenGameManager>().FromInstance(manager).AsSingle();
         
-        //TODO: КАК СДЛЕТАЬ ЭТУ ВЕЩЬ НЕ ОБЯЗАТЕЛЬНОЙ?!
+        //TODO: КАК СДЛЕТАЬ ЭТУ ВЕЩЬ НЕ ОБЯЗАТЕЛЬНОЙ?! (пример в DiTests это необязательно)
+        //внутренний Inject обьекта KitchenGameManager  без этой строчки будет равен null
+        // [Inject] private IGameInputManager _gameInput;  - вот этот.
+        //при том что идентичная логика без этой строчки в DiShape с её (IRectCalculator) работает без Inject по DiShape.
+        //Почему?!
         _container.Inject(manager);
         
         _container.Inject(this);
