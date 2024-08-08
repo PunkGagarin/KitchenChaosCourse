@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace Gameplay
@@ -9,18 +8,16 @@ namespace Gameplay
     public class KitchenGameManager : MonoBehaviour
     {
 
-        private bool _isGamePaused = false;
+        private bool _isGamePaused;
         private float _currentGameTimer;
 
-        // [SerializeField]
-        // private float _waitingStartTimer = 1f;
 
         [SerializeField]
         private float _gameTimerMax = 10f;
 
         private KitchenGameManagerState _state;
 
-        [Inject] private GameInputManager _gameInput;
+        [Inject] private IGameInputManager _gameInput;
 
         [field: SerializeField]
         public float CountDownTimer { get; private set; } = 3f;
@@ -34,6 +31,11 @@ namespace Gameplay
                 _state = value;
                 OnStateChanged.Invoke(_state);
             }
+        }
+
+        public void SetInputManager(IGameInputManager inputManager)
+        {
+            _gameInput = inputManager;
         }
 
         public Action<KitchenGameManagerState> OnStateChanged = delegate { };
@@ -101,6 +103,11 @@ namespace Gameplay
         public bool IsGamePlaying()
         {
             return State == KitchenGameManagerState.GamePlaying;
+        }
+
+        public KitchenGameManagerState GetCurrentState()
+        {
+            return State;
         }
 
         public float GetGameTimerNormalized()

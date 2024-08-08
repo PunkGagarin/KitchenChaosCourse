@@ -5,15 +5,16 @@ using UnityEngine.InputSystem;
 namespace Gameplay
 {
 
-    public class GameInputManager : MonoBehaviour
+    public class GameInputManager : MonoBehaviour, IGameInputManager
     {
         private const string PLAYER_PREFS_PLAYER_BINDING = "PlayerBinding";
         private PlayerInputAction _inputAction;
         private Vector3 _lastNonZeroMoveInput;
 
-        public Action OnInteractTry = delegate { };
+        public event Action OnInteractTry = delegate { };
+        public event Action OnPause = delegate { };
+        
         public Action OnInteractAlternativeTry = delegate { };
-        public Action OnPause = delegate { };
         public Action OnKeybindRebind = delegate { };
 
         private void Awake()
@@ -158,5 +159,4 @@ namespace Gameplay
             onActionRebound.Invoke();
         }
     }
-
 }

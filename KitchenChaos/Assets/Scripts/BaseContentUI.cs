@@ -13,6 +13,7 @@ namespace DefaultNamespace
         {
             _content.SetActive(true);
         }
+        
         public virtual void Hide()
         {
             _content.SetActive(false);
