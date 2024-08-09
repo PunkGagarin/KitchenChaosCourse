@@ -11,7 +11,6 @@ namespace Gameplay
         private bool _isGamePaused;
         private float _currentGameTimer;
 
-
         [SerializeField]
         private float _gameTimerMax = 10f;
 

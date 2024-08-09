@@ -1,4 +1,4 @@
-using System;
+using System.Reflection;
 using Gameplay.Counter;
 using UnityEngine;
 using Zenject;
@@ -14,7 +14,7 @@ namespace Gameplay.Audio.Counters
         private float Timer;
         private bool isPlayingWarningSound = false;
 
-        [Inject] private SoundManager _soundManager;
+        [Inject] private ISoundManager _soundManager;
 
         [SerializeField]
         private StoveCounter _stove;
@@ -30,6 +30,12 @@ namespace Gameplay.Audio.Counters
         {
             if (!isPlayingWarningSound) return;
 
+            //todo: Stub method to show that we have problem with those methods.
+            //todo: SOLVE ME?????
+            //как написать тест на этот метод не меняя класс??
+            //StoveCounterSoundTest
+            _stove.OnTestMethod();
+            
             Timer -= Time.deltaTime;
             if (Timer <= 0)
             {
@@ -56,7 +62,10 @@ namespace Gameplay.Audio.Counters
         {
             isPlayingWarningSound = false;
         }
-
     }
 
+    public interface ISoundManager
+    {
+        void PlaySoundByType(GameAudioType type, int soundIndex, Vector3 transformPosition);
+    }
 }

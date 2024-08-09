@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Reflection;
 using Gameplay.Shapes;
 using NSubstitute;
 using NUnit.Framework;
@@ -11,17 +12,21 @@ namespace Tests.EditorTests.BasicTests
         private DiContainer _container;
 
         [Inject]
-        private DiShape _diShape;
+        private ShapeSystem _shapeSystem;
 
         [Inject]
-        private IRectCalculator _rectCalculator;
+        private IRectCalculator _rectCalculatorMock;
 
         [SetUp]
         public void Setup()
         {
             _container = new DiContainer();
-            _container.Bind<DiShape>().AsSingle();
-            _container.Bind<IRectCalculator>().FromInstance(Substitute.For<IRectCalculator>());
+            
+            _container.Bind<ShapeSystem>().AsSingle();
+
+            var rectCalculator = Substitute.For<IRectCalculator>();
+            _container.Bind<IRectCalculator>().FromInstance(rectCalculator);
+            
             _container.Inject(this);
         }
 
@@ -31,9 +36,9 @@ namespace Tests.EditorTests.BasicTests
             MyRectangle mr1 = new MyRectangle(1, 2);
             MyRectangle mr2 = new MyRectangle(4, 5);
 
-            _rectCalculator.IsFirstGreater(mr1, mr2).Returns(false);
+            _rectCalculatorMock.IsFirstGreater(mr1, mr2).Returns(false);
 
-            bool isFirstGreater = _diShape.IsFirstGreater(mr1, mr2);
+            bool isFirstGreater = _shapeSystem.IsFirstGreater(mr1, mr2);
 
             Assert.IsFalse(isFirstGreater);
         }

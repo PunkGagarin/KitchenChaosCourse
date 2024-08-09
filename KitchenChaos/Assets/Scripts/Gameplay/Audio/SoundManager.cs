@@ -1,4 +1,5 @@
 using System;
+using Gameplay.Audio.Counters;
 using Gameplay.Controllers;
 using Gameplay.Counter;
 using Gameplay.Player;
@@ -8,7 +9,7 @@ using Zenject;
 namespace Gameplay.Audio
 {
 
-    public class SoundManager : BaseAudioManager
+    public class SoundManager : BaseAudioManager, ISoundManager
     {
         private const string PLAYER_PREFS_NAME = "SoundEffectVolume";
         private const float DEFAULT_VOLUME = 1f;
@@ -38,6 +39,11 @@ namespace Gameplay.Audio
             _deliveryManager.OnOrderCompleted -= OnOrderCompletedHandle;
             _deliveryManager.OnOrderFailed -= OnOrderFailedHandle;
             _playerKitchenItemHolder.OnSetKitchenItem -= OnSetKitchenItemHandle;
+        }
+
+        public int DoNothing()
+        {
+            return 10;
         }
 
 
@@ -83,7 +89,7 @@ namespace Gameplay.Audio
             PlaySound(soundToPlay, position);
         }
 
-        public void PlaySoundByType(GameAudioType type,int soundIndex,  Vector3 position)
+        public void PlaySoundByType(GameAudioType type, int soundIndex, Vector3 position)
         {
             var soundToPlay = _soundsFactory.GetClipByTypeAndIndex(type, soundIndex);
             PlaySound(soundToPlay, position);

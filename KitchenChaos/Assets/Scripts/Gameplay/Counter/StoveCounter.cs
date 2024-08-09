@@ -40,7 +40,7 @@ namespace Gameplay.Counter
         [SerializeField]
         private ItemRecipesSO _recipesSo;
 
-        public Action<StoveState> OnStateChanged = delegate { };
+        public event Action<StoveState> OnStateChanged = delegate { };
 
         protected override void Awake()
         {
@@ -237,6 +237,10 @@ namespace Gameplay.Counter
             _progressBarUI.gameObject.SetActive(false);
         }
 
+        public void OnTestMethod()
+        {
+            _progressBarUI.ResetFillAmount();
+        }
     }
 
 }

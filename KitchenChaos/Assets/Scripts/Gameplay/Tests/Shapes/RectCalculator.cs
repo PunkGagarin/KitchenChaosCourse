@@ -1,10 +1,12 @@
-﻿namespace Gameplay.Shapes
+﻿using System;
+
+namespace Gameplay.Shapes
 {
     public class RectCalculator : IRectCalculator
     {
 
-        // private MyRectangle _first = new MyRectangle(2, 3);
-        // private MyRectangle _second = new MyRectangle(4, 6);
+        
+        public event Action<int> OnTemperatureChange = delegate { };
 
         public bool IsFirstGreater(MyRectangle first, MyRectangle second)
         {
